@@ -1,0 +1,48 @@
+name: Test Labels Script
+
+on:
+  push:
+    paths:
+      - 'scripts/**'
+      - 'labels.yml'
+      - '.github/workflows/test-labels.yml'
+  pull_request:
+    paths:
+      - 'scripts/**'
+      - 'labels.yml'
+      - '.github/workflows/test-labels.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck bats python3
+      - name: Shellcheck
+        run: shellcheck scripts/sync-labels.sh
+      - name: Validate script syntax
+        run: bash -n scripts/sync-labels.sh
+      - name: Test YAML parsing
+        run: |
+          python3 << 'PY'
+          labels_file = 'labels.yml'
+          labels = []
+          with open(labels_file) as f:
+              content = f.read()
+          for line in content.split('\n'):
+              if line.strip().startswith('|') and '`' in line and '| Nom' not in line and '---' not in line:
+                  parts = [p.strip() for p in line.split('|')]
+                  if len(parts) >= 4:
+                      name = parts[1].strip('`')
+                      color = parts[2].strip('`').lstrip('#')
+                      desc = parts[3].strip()
+                      if name and len(color) == 6:
+                          labels.append(name)
+          print(f'Labels found: {len(labels)}')
+          assert 'feat' in labels and 'fix' in labels and 'dependencies' in labels
+          print('OK')
+          PY

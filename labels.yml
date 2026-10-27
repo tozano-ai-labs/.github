@@ -1,0 +1,37 @@
+# Labels standardisés pour tozano-ai-labs
+
+Labels alignés sur le format de commit gitmoji du projet ai-template.
+
+## Labels par type de commit
+
+| Nom | Couleur | Description |
+| --- | --- | --- |
+| `feat` | `#a2eeef` | Nouvelle fonctionnalité (✨) |
+| `fix` | `#d73a4a` | Correction de bug (🐛) |
+| `docs` | `#0075ca` | Documentation uniquement (📚) |
+| `refactor` | `#fbca04` | Réorganisation sans changement de comportement (♻️) |
+| `test` | `#0e8a16` | Ajout ou correction de tests (✅) |
+| `chore` | `#fef2c0` | Outillage, configuration (🔧) |
+| `perf` | `#d4c5f9` | Gain de performance (⚡) |
+| `style` | `#c5def5` | Mise en forme / UI (🎨) |
+| `build` | `#b60205` | Build, empaquetage, dépendances (📦) |
+| `ci` | `#006b75` | Intégration continue (🚑) |
+| `security` | `#ee0701` | Sécurité / données personnelles (🔒) |
+| `revert` | `#e99695` | Annulation d'un changement (⏪) |
+| `i18n` | `#1d76db` | Traduction (🌐) |
+| `logs` | `#bfd4f2` | Journaux / logs (🔊) |
+
+## Labels complémentaires
+
+| Nom | Couleur | Description |
+| --- | --- | --- |
+| `dependencies` | `#0366d6` | Mise à jour de dépendances |
+| `rgpd` | `#ff6b6b` | Impact RGPD |
+| `security` | `#ee0701` | Vulnérabilité ou sécurité |
+| `good first issue` | `#7057ff` | Bon premier issue pour débuter |
+| `help wanted` | `#008672` | Aide recherchée |
+| `bug` | `#d73a4a` | Bug confirmé |
+| `enhancement` | `#a2eeef` | Amélioration / proposition |
+| `question` | `#d876e3` | Question |
+
+*Note :* `security` est présent dans les deux catégories pour couvrir à la fois le type de commit et le label thématique.

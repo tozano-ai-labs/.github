@@ -1,0 +1,89 @@
+name: Lint & Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run actionlint
+        uses: rhysd/actionlint@v1.7.3
+        with:
+          args: -color
+
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install yamllint
+        run: pip install yamllint
+      - name: Run yamllint
+        run: yamllint -c .yamllint.yml .
+
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run markdownlint
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: '**/*.md'
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run shellcheck
+        uses: ludeeus/action-shellcheck@master
+
+  labels-script-test:
+    runs-on: ubuntu-latest
+    needs: [shellcheck]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 bats
+      - name: Test sync-labels script (dry-run)
+        run: |
+          # Test syntaxe et mode dry-run
+          bash -n scripts/sync-labels.sh
+          echo "Script syntax OK"
+          # Test dry-run (nécessite gh auth mais on teste juste le parsing)
+          python3 -c "
+          # Test parsing
+          import sys
+          labels_file = 'labels.yml'
+          labels = []
+          with open(labels_file) as f:
+              content = f.read()
+          for line in content.split('\n'):
+              if line.strip().startswith('|') and '\`' in line and not line.strip().startswith('| Nom'):
+                  parts = [p.strip() for p in line.split('|')]
+                  if len(parts) >= 4:
+                      name = parts[1].strip('\`')
+                      color = parts[2].strip('\`').lstrip('#')
+                      desc = parts[3].strip()
+                      if name and color and len(color) == 6 and name != '---':
+                          labels.append((name, color, desc))
+          print(f'Parsed {len(labels)} labels')
+          assert len(labels) >= 15, 'Should have at least 15 labels'
+          "
+      - name: Run bats tests if present
+        run: |
+          if [ -d tests ] && ls tests/*.bats 1> /dev/null 2>&1; then
+            bats tests/
+          else
+            echo "No bats tests found"
+          fi

@@ -1,0 +1,42 @@
+name: ✨ Feature request
+description: Proposer une nouvelle fonctionnalité ou amélioration
+title: "✨ feat(scope): "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problématique
+      description: Quel besoin ou problème cette fonctionnalité résout-elle ?
+      placeholder: Ex. Je souhaite pouvoir...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposition
+      description: Description de la solution proposée.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives envisagées
+      description: Autres solutions ou approches considérées.
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexte additionnel
+      description: Informations complémentaires (maquettes, références, etc.)
+  - type: textarea
+    id: rgpd-impact
+    attributes:
+      label: Impact RGPD
+      description: Y a-t-il un impact sur le traitement de données personnelles ? Si oui, précisez.
+      placeholder: non / oui - précisions
+  - type: textarea
+    id: ai-impact
+    attributes:
+      label: Impact sur les prompts/logs IA
+      description: Y a-t-il un impact sur les prompts, l'historique de conversation ou les logs IA ?
+      placeholder: non / oui - précisions

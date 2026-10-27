@@ -1,0 +1,47 @@
+name: 🐛 Bug report
+description: Signaler un bug dans un dépôt de tozano-ai-labs
+title: "🐛 fix(scope): "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description du bug
+      description: Description claire et précise du comportement observé.
+      placeholder: Décrivez le bug...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Étapes pour reproduire
+      description: Étapes détaillées pour reproduire le problème.
+      placeholder: |
+        1. Aller à ...
+        2. Cliquer sur ...
+        3. Voir l'erreur...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportement attendu
+      description: Ce qui devrait se produire normalement.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environnement
+      description: Version, navigateur, OS, etc.
+      placeholder: ex. OS, version du dépôt, etc.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / captures
+      description: Captures d'écran ou extraits de logs pertinents.
+  - type: textarea
+    id: additional
+    attributes:
+      label: Informations complémentaires
+      description: Contexte additionnel.
